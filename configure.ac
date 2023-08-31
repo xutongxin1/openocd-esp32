@@ -390,6 +390,10 @@ AC_ARG_ENABLE([build-gcov],
   [Enable building support with coverage]),
   [build_gcov=$enableval], [build_gcov=no])
 
+AC_ARG_ENABLE([ch347],
+     AS_HELP_STRING([--enable-ch347], [Enable building support for CH347]),
+     [build_ch347=$enableval], [build_ch347=no])
+     
 AC_ARG_ENABLE([remote-bitbang],
   AS_HELP_STRING([--enable-remote-bitbang], [Enable building support for the Remote Bitbang jtag driver]),
   [build_remote_bitbang=$enableval], [build_remote_bitbang=no])
@@ -622,6 +626,12 @@ AS_IF([test "x$build_xlnx_pcie_xvc" = "xyes"], [
   AC_DEFINE([BUILD_XLNX_PCIE_XVC], [0], [0 if you don't want Xilinx XVC/PCIe driver.])
 ])
 
+AS_IF([test "x$build_ch347" = "xyes"], [
+AC_DEFINE([BUILD_CH347], [1], [1 if you want CH347.])
+], [
+AC_DEFINE([BUILD_CH347], [0], [0 if you don't want CH347.])
+])
+
 AS_IF([test "x$build_esp_remote" = "xyes"], [
   AC_DEFINE([BUILD_ESP_REMOTE], [1], [1 if you want ESP remote protocol support.])
 ], [
@@ -802,7 +812,7 @@ AM_CONDITIONAL([INTERNAL_LIBJAYLINK], [test "x$use_internal_libjaylink" = "xyes"
 
 AM_CONDITIONAL([BUILD_ESP_REMOTE], [test "x$build_esp_remote" = "xyes"])
 AM_CONDITIONAL([BUILD_ESP_COMPRESSION], [test "x$build_esp_compression" = "xyes"])
-
+AM_CONDITIONAL([CH347], [test "x$build_ch347" = "xyes"])
 AM_CONDITIONAL([BUILD_GCOV], [test "x$build_gcov" = "xyes"])
 
 # Look for environ alternatives.  Possibility #1: is environ in unistd.h or stdlib.h?
